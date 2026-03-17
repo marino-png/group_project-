@@ -1,0 +1,78 @@
+{
+  "_meta": {
+    "purpose": "Central run configuration for main.py",
+    "notes": [
+      "JSON does not support // comments; use this _meta block for documentation.",
+      "Only keys inside generation/rule/lp are read by the code.",
+      "CLI flags override values from this file."
+    ],
+    "mode_options": {
+      "lp.mode": ["fixed", "plan", "meal_opt"],
+      "generation.meal_mode": ["db", "tier"],
+      "generation.latitude_hint": ["tropical", "temperate", "high_latitude"],
+      "generation.solar_profile_model": ["synthetic", "suspos"],
+      "generation.weather_profile_mode": ["none", "monthly_climatology"]
+    },
+    "units": {
+      "pv_kw": "kW",
+      "batt_kwh": "kWh",
+      "dt_minutes": "minutes",
+      "c_rate": "1/hour",
+      "shed_penalty": "cost per kWh unmet demand"
+    }
+  },
+  "generation": {
+    "start": "2026-01-01",
+    "days": 1,
+    "dt_minutes": 15,
+    "seed": 42,
+    "solar_profile_model": "suspos",
+    "location_name": "Nigeria",
+    "location_profiles_path": "data/reference/location_profiles.csv",
+    "latitude_deg": null,
+    "longitude_deg": null,
+    "pv_tilt_deg": 30.0,
+    "pv_azimuth_deg": 180.0,
+    "weather_profile_mode": "monthly_climatology",
+    "weather_profile_path": "data/reference/weather_profiles.csv",
+    "latitude_hint": "tropical",
+    "p_cold": 0.25,
+    "p_medium": 0.5,
+    "p_high": 0.25,
+    "meal_mode": "db",
+    "meal_db_path": "data/reference/meal_database.csv",
+    "solar_day": "mixed",
+    "solar_day_seq": null,
+    "solar_conditions_path": "data/reference/solar_day_conditions.csv"
+  },
+  "rule": {
+    "outdir": "outputs/main_rule",
+    "prefix": "rule",
+    "pv_kw": 4.0,
+    "batt_kwh": 8.0,
+    "ch_kw": 3.0,
+    "dis_kw": 3.0,
+    "charge_eff": 0.92,
+    "discharge_eff": 0.92,
+    "soc_init": 0.5
+  },
+  "lp": {
+    "outdir": "outputs/main_lp",
+    "prefix": "lp",
+    "mode": "fixed",
+    "pv_kw_fixed": 4.0,
+    "batt_kwh_fixed": 8.0,
+    "pv_capex": 900.0,
+    "batt_capex": 500.0,
+    "charge_eff": 0.92,
+    "discharge_eff": 0.92,
+    "c_rate": 0.5,
+    "soc_init": 0.5,
+    "cyclic_soc": true,
+    "shed_penalty": 10000.0,
+    "solver": "PULP_CBC_CMD",
+    "meal_db_path": "data/reference/meal_database.csv",
+    "nutrition_targets_path": "configs/meal_targets.json",
+    "meal_cost_weight": 1.0
+  }
+}

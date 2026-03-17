@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local environments
+venv/
+.venv/
+
+# IDE/system
+.idea/
+.DS_Store
+
+# Generated artifacts
+outputs/*
+!outputs/.gitkeep
+figures/*
+!figures/.gitkeep
+data/timeseries*.csv

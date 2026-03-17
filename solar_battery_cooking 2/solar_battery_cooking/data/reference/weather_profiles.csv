@@ -1,0 +1,49 @@
+location,month,weather_factor,notes
+Nigeria,1,0.95,Dry season
+Nigeria,2,0.95,Dry season
+Nigeria,3,0.92,Transition
+Nigeria,4,0.88,Pre-rainy season
+Nigeria,5,0.82,Rainy season
+Nigeria,6,0.78,Rainy season
+Nigeria,7,0.74,Peak rainy season
+Nigeria,8,0.76,Rainy season
+Nigeria,9,0.80,Rainy season
+Nigeria,10,0.86,Transition
+Nigeria,11,0.92,Dry season return
+Nigeria,12,0.95,Dry season
+Abuja,1,0.96,Dry season
+Abuja,2,0.95,Dry season
+Abuja,3,0.91,Transition
+Abuja,4,0.87,Pre-rainy season
+Abuja,5,0.82,Rainy season
+Abuja,6,0.77,Rainy season
+Abuja,7,0.72,Peak rainy season
+Abuja,8,0.74,Rainy season
+Abuja,9,0.79,Rainy season
+Abuja,10,0.85,Transition
+Abuja,11,0.92,Dry season return
+Abuja,12,0.95,Dry season
+Lagos,1,0.90,Coastal dry season
+Lagos,2,0.88,Coastal haze
+Lagos,3,0.84,Transition
+Lagos,4,0.80,Rainy season
+Lagos,5,0.74,Rainy season
+Lagos,6,0.70,Rainy season
+Lagos,7,0.68,Peak rainy season
+Lagos,8,0.72,August break
+Lagos,9,0.71,Rainy season
+Lagos,10,0.76,Transition
+Lagos,11,0.84,Dry season return
+Lagos,12,0.88,Dry season
+Kano,1,0.97,Dry season
+Kano,2,0.96,Dry season
+Kano,3,0.94,Dry season
+Kano,4,0.90,Hot season
+Kano,5,0.84,Transition
+Kano,6,0.78,Rainy season
+Kano,7,0.73,Peak rainy season
+Kano,8,0.75,Rainy season
+Kano,9,0.81,Rainy season
+Kano,10,0.89,Transition
+Kano,11,0.95,Dry season return
+Kano,12,0.97,Dry season

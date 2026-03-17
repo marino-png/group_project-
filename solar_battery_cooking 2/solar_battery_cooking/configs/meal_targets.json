@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "notes": [
+      "JSON does not support // comments; this block documents the schema.",
+      "Set min or max to null to disable that bound.",
+      "Nutrient keys should match numeric meal database columns."
+    ],
+    "units": {
+      "calories_kcal": "kcal/day",
+      "protein_g": "g/day",
+      "fiber_g": "g/day",
+      "micronutrient_score": "unitless score/day"
+    }
+  },
+  "description": "Daily household nutrition target placeholders for meal-choice optimisation.",
+  "daily_targets": {
+    "calories_kcal": {"min": 4500, "max": 11000},
+    "protein_g": {"min": 130, "max": null},
+    "fiber_g": {"min": 35, "max": null},
+    "micronutrient_score": {"min": 18, "max": null}
+  }
+}

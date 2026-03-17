@@ -1,0 +1,6 @@
+condition,pv_multiplier,description,notes
+storm,0.20,Very poor irradiance and heavy clouds,Placeholder for monsoon or severe overcast
+cloudy,0.45,Low irradiance with thick cloud cover,Use for winter stormy days
+mixed,0.70,Variable cloud and sun,Default teaching condition
+clear,0.90,Mostly clear sky with mild cloud,Good production day
+sunny,1.05,High irradiance and little cloud,Best-case placeholder

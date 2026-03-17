@@ -1,0 +1,8 @@
+{
+  "_comment": "Example scenario definition: one cloudy day with 15-minute timestep.",
+  "name": "cloudy_day",
+  "days": 1,
+  "dt_minutes": 15,
+  "solar_day": "cloudy",
+  "meal_db": "data/reference/meal_database.csv"
+}

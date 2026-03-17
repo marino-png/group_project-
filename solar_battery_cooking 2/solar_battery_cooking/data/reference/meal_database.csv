@@ -1,0 +1,17 @@
+meal_id,meal_name,meal_type,cook_energy_kwh,calories_kcal,protein_g,carbs_g,fat_g,fiber_g,meal_cost_usd,micronutrient_score,iron_mg,calcium_mg,vitamin_c_mg,cook_duration_min,enabled,notes
+b_ng_01,Akamu (Pap) and Akara,breakfast,0.65,1100,32,150,34,16,4.2,8.0,8,180,12,35,1,Common Nigerian breakfast with bean fritters and hot pap
+b_ng_02,Yam and Egg Sauce,breakfast,0.95,1400,36,190,42,14,5.1,7.6,7,120,18,45,1,Boiled yam plus quick tomato egg sauce
+b_ng_03,Moi Moi and Pap,breakfast,0.75,1000,28,118,30,15,3.9,8.4,9,160,10,40,1,Steamed bean pudding with pap
+b_ng_04,Agege Bread and Tea,breakfast,0.22,900,20,130,24,8,2.4,6.0,4,110,4,12,1,Low-cook breakfast option
+l_ng_01,Jollof Rice and Chicken,lunch,1.45,2100,72,265,58,13,7.8,8.3,10,95,24,55,1,Staple rice meal with tomato stew base
+l_ng_02,Beans and Plantain,lunch,1.10,1850,48,240,44,26,4.6,8.8,12,130,22,50,1,Beans porridge or stewed beans with fried plantain
+l_ng_03,Egusi Soup and Pounded Yam,lunch,1.85,2400,68,210,96,18,6.4,8.1,11,150,16,70,1,Energy-intensive soup plus swallow
+l_ng_04,Ofada Rice and Ayamase,lunch,1.55,2050,52,235,66,12,6.9,8.5,9,90,20,60,1,Rice with green pepper stew
+d_ng_01,Garri and Efo Riro,dinner,1.35,1750,42,170,68,20,4.8,8.7,13,220,28,50,1,Evening swallow meal with leafy soup
+d_ng_02,Amala and Gbegiri with Ewedu,dinner,1.60,1900,46,205,62,18,5.0,8.9,12,240,14,60,1,Traditional Yoruba dinner combination
+d_ng_03,Rice and Stew with Fish,dinner,1.25,1800,58,225,48,10,5.5,8.2,9,105,26,45,1,Common home dinner with tomato stew
+d_ng_04,Indomie and Egg,dinner,0.50,950,24,110,30,4,2.2,5.6,5,70,8,15,1,Quick low-energy dinner fallback
+any_ng_01,Moi Moi,any,0.55,700,22,52,26,10,2.7,8.1,8,120,6,35,1,Flexible bean-based meal or side
+any_ng_02,Peppered Plantain and Groundnuts,any,0.18,780,14,96,28,9,2.4,6.7,4,65,18,10,1,Low-cook flexible option
+any_ng_03,Yam Porridge,any,1.20,1600,30,205,52,17,4.0,7.9,7,100,20,55,1,One-pot meal usable across slots
+any_ng_04,Suya Wrap and Salad,any,0.08,850,34,58,38,6,3.8,7.2,6,85,16,5,1,Mostly assembled meal with minimal reheating

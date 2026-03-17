@@ -1,0 +1,9 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.vendor/
+
+# Raspberry Pi specific
+*.log
+.env

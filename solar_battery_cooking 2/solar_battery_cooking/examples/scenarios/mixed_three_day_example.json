@@ -1,0 +1,8 @@
+{
+  "_comment": "Example scenario definition: three days with explicit day-by-day solar conditions.",
+  "name": "mixed_three_days",
+  "days": 3,
+  "dt_minutes": 15,
+  "solar_day_seq": "sunny,mixed,cloudy",
+  "meal_db": "data/reference/meal_database.csv"
+}
