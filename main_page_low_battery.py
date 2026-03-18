@@ -1,13 +1,11 @@
 """
-Kivy-based main screen for the autonomous cooking unit.
+Low-battery version of the main screen.
 
-Layout:
-- Left: single column with 4 large recipe buttons.
-- Top left: Quit button that closes the app (back to Pi OS).
-- Right: status panel with battery %, charging state, and light sensor value (placeholders for now).
-
-The background is darker than the buttons, and buttons use warm pastel oranges / yellows
-to create a bright, friendly, futuristic feeling.
+Differences vs main_page.py:
+- Battery level fixed to 5% and styled as low (red text).
+- Charging status text shown in red.
+- Egusi Stew, Fried Rice and Jollof Rice buttons are greyed out and
+  tapping them shows a "not enough energy" warning instead of opening pages.
 """
 
 import os
@@ -19,17 +17,18 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.widget import Widget
-from kivy.uix.image import AsyncImage, Image
+from kivy.uix.image import Image
 from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.popup import Popup
 from kivy.graphics import Color, RoundedRectangle
 from kivy.metrics import dp
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# PLACEHOLDER SENSOR / SYSTEM DATA
+# PLACEHOLDER SENSOR / SYSTEM DATA (low battery)
 # ─────────────────────────────────────────────────────────────────────────────
 
-BATTERY_PCT = 73
+BATTERY_PCT = 5
 IS_CHARGING = True
 LIGHT_LUX = 8450
 
@@ -47,20 +46,20 @@ RECIPES = [
     },
     {
         "title": "EGUSI STEW",
-        "subtitle": "Quisque vehicula eros vel neque tristique, ut tincidunt nunc.",
-        "color": (1.0, 0.84, 0.55, 1),
+        "subtitle": "Not available – low battery.",
+        "color": (0.4, 0.4, 0.4, 1),
         "image": os.path.join(IMAGES_DIR, "egusi stew.png"),
     },
     {
         "title": "FRIED RICE",
-        "subtitle": "Curabitur laoreet sapien sit amet libero hendrerit.",
-        "color": (1.0, 0.9, 0.6, 1),
+        "subtitle": "Not available – low battery.",
+        "color": (0.4, 0.4, 0.4, 1),
         "image": os.path.join(IMAGES_DIR, "fried rice.png"),
     },
     {
         "title": "JOLLOF RICE",
-        "subtitle": "Suspendisse potenti. Donec blandit tortor eu sapien.",
-        "color": (1.0, 0.8, 0.6, 1),
+        "subtitle": "Not available – low battery.",
+        "color": (0.4, 0.4, 0.4, 1),
         "image": os.path.join(IMAGES_DIR, "jollof rice.png"),
     },
 ]
@@ -80,11 +79,13 @@ class RecipeButton(ButtonBehavior, BoxLayout):
         )
         with self.canvas.before:
             Color(*bg_color)
-            self._rect = RoundedRectangle(pos=self.pos, size=self.size, radius=[dp(12),])
+            self._rect = RoundedRectangle(pos=self.pos, size=self.size, radius=[dp(12)])
         self.bind(pos=self._update_rect, size=self._update_rect)
 
+        # Bind on_release instead of on_press so the touch screen
+        # doesn't accidentally trigger the callback twice.
         if on_press_callback is not None:
-            self.bind(on_press=lambda *_: on_press_callback())
+            self.bind(on_release=lambda *_: on_press_callback())
 
         # Thumbnail (fixed size, keep aspect ratio)
         img = Image(
@@ -128,7 +129,7 @@ class RecipeButton(ButtonBehavior, BoxLayout):
 
 
 class StatusPanel(BoxLayout):
-    """Right-hand panel showing battery and light status (placeholders)."""
+    """Right-hand panel showing battery and light status (low battery styling)."""
 
     def __init__(self, **kwargs):
         super().__init__(orientation="vertical", padding=dp(20), spacing=dp(16), **kwargs)
@@ -149,14 +150,14 @@ class StatusPanel(BoxLayout):
         self.add_widget(header)
 
         # Battery
-        self.add_widget(Label(text="Battery", font_size="16sp", color=(1, 1, 1, 0.9), size_hint_y=None, height=dp(24)))
+        self.add_widget(Label(text="Battery", font_size="16sp", color=(1, 0.3, 0.3, 1), size_hint_y=None, height=dp(24)))
 
         battery_row = BoxLayout(orientation="horizontal", spacing=dp(10), size_hint_y=None, height=dp(26))
         battery_bar = ProgressBar(max=100, value=BATTERY_PCT)
         battery_label = Label(
             text=f"{BATTERY_PCT}%",
             font_size="14sp",
-            color=(1, 1, 1, 0.9),
+            color=(1, 0.3, 0.3, 1),
             size_hint_x=None,
             width=dp(60),
         )
@@ -164,9 +165,9 @@ class StatusPanel(BoxLayout):
         battery_row.add_widget(battery_label)
         self.add_widget(battery_row)
 
-        # Charging status
-        charging_text = "Charging" if IS_CHARGING else "Not charging"
-        charging_color = (0.4, 1.0, 0.6, 1) if IS_CHARGING else (1.0, 0.7, 0.4, 1)
+        # Charging status, but red to signal problem
+        charging_text = "Charging"
+        charging_color = (1.0, 0.3, 0.3, 1)
         charging_label = Label(
             text=charging_text,
             font_size="16sp",
@@ -195,9 +196,9 @@ class StatusPanel(BoxLayout):
         light_row.add_widget(light_label)
         self.add_widget(light_row)
 
-        # Optimize meal plan button
+        # Optimize meal plan button (same as main page)
         from kivy.app import App as _App
-        self.add_widget(Widget(size_hint_y=None, height=dp(14)))
+        self.add_widget(Widget(size_hint_y=None, height=dp(16)))
         optimize_btn = Button(
             text="optimize meal plan",
             size_hint_y=None,
@@ -213,7 +214,7 @@ class StatusPanel(BoxLayout):
             if hasattr(app, "show_optimize_page"):
                 app.show_optimize_page()
 
-        optimize_btn.bind(on_press=_go_optimize)
+        optimize_btn.bind(on_release=_go_optimize)
         self.add_widget(optimize_btn)
 
         # Spacer to push content up a bit
@@ -226,10 +227,10 @@ class MainRoot(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(orientation="horizontal", spacing=0, **kwargs)
 
-        # Left side (recipes) — minimal top padding so Quit and title sit at the top
+        # Left side (recipes)
         left = BoxLayout(
             orientation="vertical",
-            padding=(dp(20), dp(10), dp(20), dp(10)),  # top=16 so header is up
+            padding=(dp(20), dp(10), dp(20), dp(10)),
             spacing=dp(12),
         )
 
@@ -263,7 +264,6 @@ class MainRoot(BoxLayout):
 
         left.add_widget(header_row)
 
-        # Extra gap between header and recipe list
         left.add_widget(Widget(size_hint_y=None, height=dp(8)))
 
         subtitle = Label(
@@ -279,7 +279,7 @@ class MainRoot(BoxLayout):
         left.add_widget(subtitle)
 
         # Recipe buttons column
-        from kivy.app import App
+        from kivy.app import App as _App
 
         recipes_col = BoxLayout(
             orientation="vertical",
@@ -290,18 +290,43 @@ class MainRoot(BoxLayout):
         for r in RECIPES:
             def make_cb(title=r["title"]):
                 def _cb():
-                    app = App.get_running_app()
-                    if not app:
-                        return
-                    # Route by recipe title
-                    if title == "FUFU" and hasattr(app, "show_fufu_page"):
-                        app.show_fufu_page()
-                    elif title == "EGUSI STEW" and hasattr(app, "show_egusi_page"):
-                        app.show_egusi_page()
-                    elif title == "FRIED RICE" and hasattr(app, "show_fried_rice_page"):
-                        app.show_fried_rice_page()
-                    elif title == "JOLLOF RICE" and hasattr(app, "show_jollof_page"):
-                        app.show_jollof_page()
+                    # FUFU allowed; others show warning
+                    if title == "FUFU":
+                        app = _App.get_running_app()
+                        if hasattr(app, "show_fufu_page"):
+                            app.show_fufu_page()
+                    else:
+                        # Show warning popup
+                        content = BoxLayout(orientation="vertical", padding=dp(16), spacing=dp(10))
+                        msg = Label(
+                            text="not enough energy",
+                            font_size="16sp",
+                            halign="center",
+                            valign="middle",
+                            color=(1, 1, 1, 1),
+                        )
+                        msg.bind(size=msg.setter("text_size"))
+                        ok_btn = Button(
+                            text="OK",
+                            size_hint=(None, None),
+                            width=dp(80),
+                            height=dp(40),
+                            background_normal="",
+                            background_color=(1.0, 0.6, 0.25, 1),
+                            color=(0.1, 0.1, 0.1, 1),
+                            border=(0, 0, 0, 0),
+                        )
+                        popup = Popup(
+                            title="Warning",
+                            content=content,
+                            size_hint=(0.6, 0.3),
+                        )
+                        ok_btn.bind(on_press=lambda *_: popup.dismiss())
+                        content.add_widget(msg)
+                        content.add_widget(Widget())
+                        content.add_widget(ok_btn)
+                        popup.open()
+
                 return _cb
 
             recipes_col.add_widget(
@@ -314,10 +339,8 @@ class MainRoot(BoxLayout):
                 )
             )
 
-        # Let the column size itself to fit its children vertically
         recipes_col.bind(minimum_height=recipes_col.setter("height"))
 
-        # Put recipes column inside a container that will stretch, so buttons stay on the left
         recipes_container = BoxLayout(orientation="vertical")
         recipes_container.add_widget(recipes_col)
         left.add_widget(recipes_container)
@@ -329,21 +352,15 @@ class MainRoot(BoxLayout):
         self.add_widget(right)
 
 
-class CookingUnitApp(App):
+class CookingUnitLowBatteryApp(App):
     def build(self):
-        # Dark, slightly bluish background for contrast with bright buttons
         Window.clearcolor = (0.05, 0.07, 0.15, 1)
-
-        # Ensure landscape and full screen on the Pi
         try:
-            # Useful for development on a desktop; on the Pi the physical screen will still be used.
             Window.size = (800, 480)
         except Exception:
             pass
-
         Window.fullscreen = True
 
-        # Root container that we can swap pages into
         from kivy.uix.boxlayout import BoxLayout as RootBox
 
         self._root_container = RootBox()
@@ -351,47 +368,27 @@ class CookingUnitApp(App):
         return self._root_container
 
     def show_main_page(self, *args):
-        """Show the main recipe selection page."""
         self._root_container.clear_widgets()
         self._root_container.add_widget(MainRoot())
 
     def show_fufu_page(self, *args):
-        """Show the dedicated Fufu page."""
         from fufu_page import build_fufu_page
 
         self._root_container.clear_widgets()
-        self._root_container.add_widget(build_fufu_page(on_home=self.show_main_page, on_start_timer=self.show_timer_page))
-
-    def show_egusi_page(self, *args):
-        """Show the Egusi Stew page."""
-        from egusi_page import build_egusi_page
-
-        self._root_container.clear_widgets()
-        self._root_container.add_widget(build_egusi_page(on_home=self.show_main_page, on_start_timer=self.show_timer_page))
-
-    def show_fried_rice_page(self, *args):
-        """Show the Fried Rice page."""
-        from fried_rice_page import build_fried_rice_page
-
-        self._root_container.clear_widgets()
-        self._root_container.add_widget(build_fried_rice_page(on_home=self.show_main_page, on_start_timer=self.show_timer_page))
-
-    def show_jollof_page(self, *args):
-        """Show the Jollof Rice page."""
-        from jollof_page import build_jollof_page
-
-        self._root_container.clear_widgets()
-        self._root_container.add_widget(build_jollof_page(on_home=self.show_main_page, on_start_timer=self.show_timer_page))
+        # Re-use the same timer page integration as the full app
+        from main_page import CookingUnitApp
+        # On low-battery screen we still allow Fufu + timer
+        self._root_container.add_widget(
+            build_fufu_page(on_home=self.show_main_page, on_start_timer=self.show_timer_page)
+        )
 
     def show_timer_page(self, *args):
-        """Show the shared timer page."""
         from timer_page import build_timer_page
 
         self._root_container.clear_widgets()
         self._root_container.add_widget(build_timer_page(on_home=self.show_main_page))
 
     def show_optimize_page(self, *args):
-        """Show the meal optimization page."""
         from optimize_page import build_optimize_page
 
         self._root_container.clear_widgets()
@@ -399,4 +396,5 @@ class CookingUnitApp(App):
 
 
 if __name__ == "__main__":
-    CookingUnitApp().run()
+    CookingUnitLowBatteryApp().run()
+
