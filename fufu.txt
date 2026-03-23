@@ -1,4 +1,6 @@
- Title Fufu
+Fufu
+Duration (minutes): 40 
+energy(kWh) required: 0.59
 
 A classic West African staple — smooth, stretchy, and deeply satisfying. One serving (about 200g) contains approximately 320 calories.
 

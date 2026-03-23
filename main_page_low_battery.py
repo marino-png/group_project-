@@ -132,9 +132,12 @@ class StatusPanel(BoxLayout):
     """Right-hand panel showing battery and light status (low battery styling)."""
 
     def __init__(self, **kwargs):
-        super().__init__(orientation="vertical", padding=dp(20), spacing=dp(16), **kwargs)
+        super().__init__(orientation="vertical", padding=(dp(20), dp(20), dp(20), dp(12)), spacing=dp(10), **kwargs)
 
         self.size_hint_x = 0.32  # ~one third of the screen
+
+        # Top spacer to move all status content a bit lower
+        self.add_widget(Widget(size_hint_y=None, height=dp(8)))
 
         # Header
         header = Label(
@@ -144,15 +147,27 @@ class StatusPanel(BoxLayout):
             halign="left",
             valign="middle",
             color=(1, 1, 1, 1),
+            size_hint_y=None,
+            height=dp(45),
         )
         header.bind(size=header.setter("text_size"))
 
         self.add_widget(header)
 
         # Battery
-        self.add_widget(Label(text="Battery", font_size="16sp", color=(1, 0.3, 0.3, 1), size_hint_y=None, height=dp(24)))
+        battery_title = Label(
+            text="Battery",
+            font_size="16sp",
+            color=(1, 0.3, 0.3, 1),
+            halign="left",
+            valign="middle",
+            size_hint_y=None,
+            height=dp(22),
+        )
+        battery_title.bind(size=battery_title.setter("text_size"))
+        self.add_widget(battery_title)
 
-        battery_row = BoxLayout(orientation="horizontal", spacing=dp(10), size_hint_y=None, height=dp(26))
+        battery_row = BoxLayout(orientation="horizontal", spacing=dp(10), size_hint_y=None, height=dp(24))
         battery_bar = ProgressBar(max=100, value=BATTERY_PCT)
         battery_label = Label(
             text=f"{BATTERY_PCT}%",
@@ -176,14 +191,24 @@ class StatusPanel(BoxLayout):
             height=dp(26),
         )
         charging_label.bind(size=charging_label.setter("text_size"))
-        self.add_widget(Widget(size_hint_y=None, height=dp(8)))
+        self.add_widget(Widget(size_hint_y=None, height=dp(2)))
         self.add_widget(charging_label)
 
         # Light sensor
-        self.add_widget(Widget(size_hint_y=None, height=dp(12)))
-        self.add_widget(Label(text="Solar Light", font_size="16sp", color=(1, 1, 1, 0.9), size_hint_y=None, height=dp(24)))
+        self.add_widget(Widget(size_hint_y=None, height=dp(8)))
+        light_title = Label(
+            text="Solar Light",
+            font_size="16sp",
+            color=(1, 1, 1, 0.9),
+            halign="left",
+            valign="middle",
+            size_hint_y=None,
+            height=dp(22),
+        )
+        light_title.bind(size=light_title.setter("text_size"))
+        self.add_widget(light_title)
 
-        light_row = BoxLayout(orientation="horizontal", spacing=dp(10), size_hint_y=None, height=dp(26))
+        light_row = BoxLayout(orientation="horizontal", spacing=dp(10), size_hint_y=None, height=dp(24))
         light_bar = ProgressBar(max=20000, value=LIGHT_LUX)  # arbitrary max for placeholder
         light_label = Label(
             text=f"{LIGHT_LUX} lx",
@@ -196,9 +221,23 @@ class StatusPanel(BoxLayout):
         light_row.add_widget(light_label)
         self.add_widget(light_row)
 
+        # Time left to charge message
+        self.add_widget(Widget(size_hint_y=None, height=dp(8)))
+        charge_left_label = Label(
+            text="time left to charge :\n2:30 hours",
+            font_size="14sp",
+            halign="left",
+            valign="top",
+            color=(1, 1, 1, 0.95),
+            size_hint_y=None,
+            height=dp(48),
+        )
+        charge_left_label.bind(size=charge_left_label.setter("text_size"))
+        self.add_widget(charge_left_label)
+
         # Optimize meal plan button (same as main page)
         from kivy.app import App as _App
-        self.add_widget(Widget(size_hint_y=None, height=dp(16)))
+        self.add_widget(Widget(size_hint_y=None, height=dp(8)))
         optimize_btn = Button(
             text="optimize meal plan",
             size_hint_y=None,
@@ -217,8 +256,8 @@ class StatusPanel(BoxLayout):
         optimize_btn.bind(on_release=_go_optimize)
         self.add_widget(optimize_btn)
 
-        # Spacer to push content up a bit
-        self.add_widget(Widget())
+        # Bottom spacer so panel doesn't look cramped
+        self.add_widget(Widget(size_hint_y=None, height=dp(6)))
 
 
 class MainRoot(BoxLayout):

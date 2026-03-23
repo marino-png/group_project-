@@ -1,4 +1,6 @@
 Egusi Stew
+Duration (minutes): 70
+energy(kWh): 1.85
 
 A rich, hearty West African stew made with ground melon seeds, leafy greens, and bold spices. One serving (about 250g) contains approximately 420 calories.
 

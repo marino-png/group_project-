@@ -1,4 +1,6 @@
 Fried Rice
+Duration (minutes): 20
+energy(kWh): 0.59
 
 A vibrant, flavour-packed Nigerian-style fried rice loaded with vegetables, liver, and aromatic seasonings. One serving (about 300g) contains approximately 480 calories.
 
